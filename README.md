@@ -1,1 +1,2 @@
-# past_practice
+# アルゴリズム検定　python
+## 学習記録
