@@ -3,9 +3,8 @@ N = int(input())
 # python代入する値を配列にする
 S = [list(map(str,input())) for _ in range(N)]
 
-for i in range(N-1, -1, -1):
-    if i == N-1:
-        continue
+# 問題文のi,jは行目であり、配列のindexではない
+for i in range(N-2, -1, -1):
     for j in range(1, 2*N-2, 1):
         # S[i][j]が黒く塗られて、Xではない
         if S[i][j] == '#':
