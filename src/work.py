@@ -1,23 +1,33 @@
-import sys
-sys.setrecursionlimit(10**5)
-
 N = int(input())
-h = list(map(int, input().split()))
-h.insert(0, 0)
-dp = [0] * (N+1)
-checked = [False] * (N+1) 
 
-def rec(i):
-    if checked[i]:
-        return dp[i]
-    if i == 2:
-        dp[2] = abs(h[2]-h[1])
-    elif 2 < i:
-        min_cost = min(rec(i-1) + abs(h[i]-h[i-1]), rec(i-2) + abs(h[i] - h[i-2]))
-        dp[i] = min_cost
+ps = [0] + list(map(int, input().split()))
 
-    checked[i] = True
-    return dp[i]
+P = sum(ps)
 
-result = rec(N)
-print(result)
+exist = []
+
+# exist[i][s]:iまでの問題で得点sにできるかどうか真偽値で管理
+for i in range(N+1):
+    exist.append([False]*(P+1))
+
+# 初期条件
+exist[0][0] = True
+
+# iが小さい順にexistの値を求めていく
+for i in range(1, N+1):
+    for s in range(0, P+1):
+        if exist[i-1][s]:
+            exist[i][s] = True
+
+        # i問目を解いてsになる場合
+        if s >= ps[i] and exist[i-1][s-ps[i]]:
+            exist[i][s] = True
+
+ans = 0
+
+# 最後のN問目の列だけ見る
+for s in range(P+1):
+    if exist[N][s]:
+        ans += 1
+
+print(ans)
